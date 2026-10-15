@@ -4,6 +4,7 @@ This repo publishes one Agent Skill: `skills/production-ops-discipline/`.
 
 ## Editing the skill
 
+- Validate after every change: `uvx --from skills-ref==0.1.1 agentskills validate skills/production-ops-discipline`. CI runs the same check on every push.
 - Add a rule only when repeated real use shows the failure. One incident or one model's guess is not enough.
 - Every new rule must say why. The skill is mindset first; a bare do/don't list fails on cases it does not name.
 - Keep `SKILL.md` harness-neutral. Tool names for a specific harness go in `references/harnesses.md`.

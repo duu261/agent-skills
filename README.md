@@ -24,6 +24,21 @@ Built and tuned on Claude Opus 5.5. The mechanical defaults (backups, one change
 
 ## Install
 
+### Easiest: let your agent do it
+
+Paste this into Claude Code, Codex, Hermes Agent, or any coding agent that supports Agent Skills:
+
+```text
+Install the Agent Skill "production-ops-discipline" from https://github.com/duu261/claude-wannabe-gpt.
+1. Clone the repo into a temporary directory.
+2. Copy the folder skills/production-ops-discipline into the user-level skills directory of the agent you are running in (Claude Code: ~/.claude/skills/, Codex: ~/.agents/skills/, Hermes Agent: ~/.hermes/skills/). If you are not sure which one applies, ask me.
+3. If a folder with that name already exists, stop and ask me before replacing it.
+4. Do not install the optional delegation hook unless I ask for it.
+5. Confirm the installed path and that SKILL.md is there, then delete the temporary clone.
+```
+
+### Manual
+
 Copy `skills/production-ops-discipline/` into your harness's skills directory:
 
 | Harness | Location |

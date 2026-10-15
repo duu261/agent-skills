@@ -26,6 +26,23 @@ Skill tên là `production-ops-discipline`. Đặc tả Agent Skills không cho 
 
 ## Cài đặt
 
+### Dễ nhất: nhờ agent cài giúp
+
+Dán đoạn này vào Claude Code, Codex, Hermes Agent hoặc agent lập trình nào hỗ trợ Agent Skills:
+
+```text
+Install the Agent Skill "production-ops-discipline" from https://github.com/duu261/claude-wannabe-gpt.
+1. Clone the repo into a temporary directory.
+2. Copy the folder skills/production-ops-discipline into the user-level skills directory of the agent you are running in (Claude Code: ~/.claude/skills/, Codex: ~/.agents/skills/, Hermes Agent: ~/.hermes/skills/). If you are not sure which one applies, ask me.
+3. If a folder with that name already exists, stop and ask me before replacing it.
+4. Do not install the optional delegation hook unless I ask for it.
+5. Confirm the installed path and that SKILL.md is there, then delete the temporary clone.
+```
+
+Prompt để bằng tiếng Anh cho agent đọc chính xác; agent vẫn trả lời bạn bằng ngôn ngữ bạn đang dùng.
+
+### Cài thủ công
+
 Copy `skills/production-ops-discipline/` vào thư mục skill của harness bạn dùng:
 
 | Harness | Vị trí |
