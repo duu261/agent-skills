@@ -45,14 +45,17 @@ For the Opus 5.5 delegation hook (why the model needs a per-turn user-side nudge
 
 Field notes from one operator running Claude Opus 5.5 on a production server, about 12,000 tool calls. This is observational, not a controlled test.
 
-| % of shell calls | Before | After |
-|---|---|---|
-| `cd` chained into commands | 35.5 | 0.6 |
-| Explicit working directory | 60.8 | 99.4 |
-| Recursive `grep` | 6.0 | 0.1 |
-| In-place `sed -i` | 2.6 | 0.2 |
+| % of shell calls | Opus before | Opus after | GPT-5.6 Sol | GPT-6 Astra |
+|---|---|---|---|---|
+| Explicit working directory | 60.8 | 99.4 | 81.4 | 94.2 |
+| `cd` chained into commands | 35.5 | 0.6 | 2.4 | 0.7 |
+| Shell file reads (`cat`, `sed -n`, `head`, `tail`) | 11.7 | 5.9 | 0.7 | 0.5 |
+| Recursive `grep` | 6.0 | 0.1 | 0.3 | 0.6 |
+| In-place `sed -i` | 2.6 | 0.2 | 0.1 | 0.0 |
 
-"After" means the skill plus matching standing rules that landed the same evening, so this table cannot credit the skill alone. Review delegation barely moved until a one-line per-turn prompt hook was added. Confounds and the full numbers are in [references/evidence.md](skills/production-ops-discipline/references/evidence.md). A controlled A/B in Claude Code is planned.
+After the skill, Opus matches or beats both GPT models on working directory, `cd`, and recursive `grep`. Shell file reads are the clear gap that stays, and in-place edits are close but still above both. The GPT columns are from the same server before the skill, with different periods and task mix, so read them as directional.
+
+"Opus after" means the skill plus matching standing rules that landed the same evening, so this table cannot credit the skill alone. Review delegation barely moved until a one-line per-turn prompt hook was added. Confounds and the full numbers are in [references/evidence.md](skills/production-ops-discipline/references/evidence.md). A controlled A/B in Claude Code is planned.
 
 ## License
 

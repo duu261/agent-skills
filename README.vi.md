@@ -47,14 +47,17 @@ Về hook delegation cho Opus 5.5 (vì sao model cần một lời nhắc phía 
 
 Ghi chép thực tế từ một người vận hành chạy Claude Opus 5.5 trên một server production, khoảng 12.000 lần gọi tool. Đây là số liệu quan sát, không phải thử nghiệm có đối chứng.
 
-| % số lần gọi shell | Trước | Sau |
-|---|---|---|
-| `cd` gộp vào lệnh | 35,5 | 0,6 |
-| Chỉ định thư mục làm việc rõ ràng | 60,8 | 99,4 |
-| `grep` đệ quy | 6,0 | 0,1 |
-| `sed -i` sửa tại chỗ | 2,6 | 0,2 |
+| % số lần gọi shell | Opus trước | Opus sau | GPT-5.6 Sol | GPT-6 Astra |
+|---|---|---|---|---|
+| Chỉ định thư mục làm việc rõ ràng | 60,8 | 99,4 | 81,4 | 94,2 |
+| `cd` gộp vào lệnh | 35,5 | 0,6 | 2,4 | 0,7 |
+| Đọc file bằng shell (`cat`, `sed -n`, `head`, `tail`) | 11,7 | 5,9 | 0,7 | 0,5 |
+| `grep` đệ quy | 6,0 | 0,1 | 0,3 | 0,6 |
+| `sed -i` sửa tại chỗ | 2,6 | 0,2 | 0,1 | 0,0 |
 
-"Sau" nghĩa là skill cộng với các quy tắc thường trực tương ứng được thêm vào cùng tối hôm đó, nên bảng này không thể quy công cho riêng skill. Việc giao review cho subagent gần như không đổi cho tới khi thêm một hook nhắc một dòng ở mỗi lượt. Các yếu tố gây nhiễu và số liệu đầy đủ nằm ở [references/evidence.md](skills/production-ops-discipline/references/evidence.md) (tiếng Anh). Một thử nghiệm A/B có đối chứng trong Claude Code đang được lên kế hoạch.
+Sau khi có skill, Opus bằng hoặc hơn cả hai model GPT ở thư mục làm việc, `cd` và `grep` đệ quy. Đọc file bằng shell vẫn là khoảng cách rõ nhất, còn `sed -i` thì gần bằng nhưng vẫn cao hơn cả hai. Các cột GPT lấy trên cùng server trước khi có skill, khác giai đoạn và loại task, nên chỉ nên xem là định hướng.
+
+"Opus sau" nghĩa là skill cộng với các quy tắc thường trực tương ứng được thêm vào cùng tối hôm đó, nên bảng này không thể quy công cho riêng skill. Việc giao review cho subagent gần như không đổi cho tới khi thêm một hook nhắc một dòng ở mỗi lượt. Các yếu tố gây nhiễu và số liệu đầy đủ nằm ở [references/evidence.md](skills/production-ops-discipline/references/evidence.md) (tiếng Anh). Một thử nghiệm A/B có đối chứng trong Claude Code đang được lên kế hoạch.
 
 ## Giấy phép
 

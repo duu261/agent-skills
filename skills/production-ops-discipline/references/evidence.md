@@ -8,17 +8,17 @@ Observational field notes, not a controlled experiment.
 - **A:** before the skill. 6 Opus 5.5 sessions, 265 shell calls.
 - **B:** skill plus matching standing-rule text, no prompt hook. 100 sessions, 1,079 shell calls.
 - **C:** B plus a per-turn reminder hook. 86 sessions, 2,276 shell calls.
-- **Baseline:** GPT-5.6 Sol on the same server before the skill. 460 sessions, 13,048 shell calls.
+- **Baselines:** GPT-5.6 Sol on the same server before the skill, 460 sessions, 13,048 shell calls. GPT-6 Astra, same server before the skill, 171 sessions, 1,925 shell calls.
 
 ## Shell habits
 
-| % of shell calls | A | B | C | GPT-5.6 Sol baseline |
-|---|---|---|---|---|
-| Explicit working directory | 60.8 | 99.4 | 99.96 | 81.4 |
-| `cd` chained into the command | 35.5 | 0.56 | 0.62 | 2.42 |
-| Shell file reads (`cat`, `sed -n`, `head`, `tail`) | 11.7 | 5.9 | 3.2 | 0.72 |
-| Recursive `grep` | 6.0 | 0.09 | 0.0 | 0.26 |
-| In-place `sed -i` / `perl -i` | 2.6 | 0.19 | 0.04 | 0.10 |
+| % of shell calls | A | B | C | GPT-5.6 Sol | GPT-6 Astra |
+|---|---|---|---|---|---|
+| Explicit working directory | 60.8 | 99.4 | 99.96 | 81.4 | 94.2 |
+| `cd` chained into the command | 35.5 | 0.56 | 0.62 | 2.42 | 0.73 |
+| Shell file reads (`cat`, `sed -n`, `head`, `tail`) | 11.7 | 5.9 | 3.2 | 0.72 | 0.52 |
+| Recursive `grep` | 6.0 | 0.09 | 0.0 | 0.26 | 0.57 |
+| In-place `sed -i` / `perl -i` | 2.6 | 0.19 | 0.04 | 0.10 | 0.0 |
 
 The big shift happened between A and B and stayed flat after the hook. Shell file reads dropped but did not reach zero.
 
