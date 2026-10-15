@@ -1,0 +1,53 @@
+# Evidence
+
+Observational field notes, not a controlled experiment.
+
+**Setup:** one operator, one production Linux server, the Hermes Agent harness, mostly Claude Opus 5.5, August to October 2026. Counts come from the harness session database. Only tool-call arguments were scanned, never tool outputs. Habit rates are percentages of shell calls in top-level sessions, deduplicated by call ID.
+
+**Windows:**
+- **A:** before the skill. 6 Opus 5.5 sessions, 265 shell calls.
+- **B:** skill plus matching standing-rule text, no prompt hook. 100 sessions, 1,079 shell calls.
+- **C:** B plus a per-turn reminder hook. 86 sessions, 2,276 shell calls.
+- **Baseline:** GPT-5.6 Sol on the same server before the skill. 460 sessions, 13,048 shell calls.
+
+## Shell habits
+
+| % of shell calls | A | B | C | GPT-5.6 Sol baseline |
+|---|---|---|---|---|
+| Explicit working directory | 60.8 | 99.4 | 99.96 | 81.4 |
+| `cd` chained into the command | 35.5 | 0.56 | 0.62 | 2.42 |
+| Shell file reads (`cat`, `sed -n`, `head`, `tail`) | 11.7 | 5.9 | 3.2 | 0.72 |
+| Recursive `grep` | 6.0 | 0.09 | 0.0 | 0.26 |
+| In-place `sed -i` / `perl -i` | 2.6 | 0.19 | 0.04 | 0.10 |
+
+The big shift happened between A and B and stayed flat after the hook. Shell file reads dropped but did not reach zero.
+
+## Delegation
+
+| | A | B | C |
+|---|---|---|---|
+| Subagent calls per session | 0 | 0.28 | 1.63 |
+| Sessions that delegated | 0% | 15% | 49% |
+
+Standing-rule text about delegation, added halfway through B, did not move the rate. The rate rose after the per-turn hook was added. The skill plus standing rules did not make the model delegate much in this stack; if you want more delegation, a hook is worth trying (see [harnesses.md](harnesses.md)).
+
+## Friction review
+
+192 top-level sessions after the skill, 37 user corrections:
+
+- **Targeted by the skill:** unrequested extra work, checks handed back to the user, skipped reviews. The skill has rules for these; how much it reduced them is not measured.
+- **Over-strictness linked to the skill (9):** a reviewer on trivial changes, asking again after a go, treating notes as production changes, "next options" closers, SLA tone in small docs. The "Do not over-correct" section comes from these.
+- **Out of scope:** wrong paths, misread intent, forgotten features. Those are competence problems, and no discipline skill fixes them.
+
+## Confounds
+
+- Standing-rule text with the same core rules (explicit working directory, no `cd`, no secret reads) landed the same evening as the skill. The A-to-B shift cannot be split between them.
+- Window A is small: 6 sessions over about 8 hours.
+- The skill was edited many times during B and C. There was no frozen version.
+- One operator, one harness. Claude Code routes search through the shell by design, so the shell-habit rates may not transfer.
+- The skill loaded in 73 to 83 percent of sessions, not all of them.
+- A secret-access regex was dropped from the table: it counts mentions, not reads.
+
+## Planned
+
+A controlled A/B in Claude Code: vanilla, skill only, and skill plus hook. One pinned model, neutral paths, a realistic fake-production sandbox, at least three runs per case, scored from transcripts rather than final answers.
