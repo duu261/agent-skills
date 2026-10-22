@@ -2,26 +2,27 @@
 
 [English](README.md) | Tiếng Việt
 
-> Bản dịch có thể chậm hơn bản tiếng Anh. Nếu hai bản khác nhau, bản tiếng Anh là chuẩn.
+> Bản tiếng Anh là bản chuẩn. Nếu hai bản lệch nhau, theo bản tiếng Anh.
 
-Các agent skill từ công việc thật, không phải task đồ chơi.
+Toàn bộ là skill mình dùng hằng ngày, chiết ra từ các session chạy model frontier: `claude-opus-5-5`, `gpt-6-astra`, `gpt-5.6-sol`, `grok-4.6` và `grok-4.7`. Cách làm đơn giản: model ngu chỗ nào thì ghi lại vào skill để sửa, task nào lặp lại thì agent tự sinh skill cho nó. [Hermes Agent](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills) tự làm cả hai việc này, qua [vòng tự cải thiện](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills#when-the-agent-creates-skills) và [`/learn`](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills#learning-a-skill-from-sources-learn).
 
-Mỗi skill bắt đầu từ các phiên làm việc hằng ngày với [Hermes Agent](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills) trong công việc vận hành thật. Hermes [tự viết skill](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills#when-the-agent-creates-skills) khi nó tìm ra một quy trình không đơn giản, rồi tinh chỉnh dần qua vòng tự cải thiện khi các phiên sau gặp tình huống mới, hoặc dựng skill từ một ý tưởng bằng [`/learn`](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills#learning-a-skill-from-sources-learn).
-
-Không có gì ở đây là output AI để nguyên. Trước khi một skill được đưa vào, con người đánh giá, viết lại, bỏ hết những gì chỉ đúng với một setup, và làm cho nó dùng được với mọi harness đọc định dạng [Agent Skills](https://agentskills.io).
+Sau đó mình check lại từng cái bằng tay, bỏ hết những gì chỉ đúng với setup của mình, rồi tách ra phần mindset (vì sao) và phần step by step (làm gì), để mấy model yếu hơn cũng áp dụng được. Chạy được trên mọi harness đọc định dạng [Agent Skills](https://agentskills.io).
 
 ## Skills
 
-| Skill | Khắc phục điều gì |
-|---|---|
-| [production-ops-discipline](skills/production-ops-discipline/) | Agent nhanh tay trên server thật: gộp sửa và restart, nhìn trộm secret, coi câu "want me to...?" của chính nó là lời đồng ý. Do `claude-opus-5-5` viết, cho `claude-opus-5-5`. |
-| [pre-build-discovery](skills/pre-build-discovery/) | Agent trả lời câu "có đáng làm không?" bằng cách làm luôn. Kết thúc bằng làm / chờ / không làm và một phép kiểm tra có thể lật kết luận. |
-| [claim-check](skills/claim-check/) | Agent bảo vệ một khẳng định bị nghi ngờ bằng cách nói to hơn, hoặc xuôi theo mà không kiểm tra. Chạy một phép kiểm tra phân định và báo Confirmed, Corrected hoặc Blocked. |
-| [repo-state-authority](skills/repo-state-authority/) | Agent coi một branch đã merge là việc bị mất vì diff quá lớn, hoặc tin file trạng thái hơn Git. Chọn đúng nguồn có thẩm quyền cho từng câu hỏi và chỉ xóa khi đã có file SHA để khôi phục. |
+**[production-ops-discipline](skills/production-ops-discipline/)**: cho agent làm việc trên server thật. Nó thôi gộp sửa với restart vào một lệnh, thôi mò `.env`, và thôi coi câu "want me to...?" của chính nó là được phép. Nó chỉ hỏi trước khi sửa, đọc với chạy test thì không hỏi. Mình làm riêng cho `claude-opus-5-5` để nó cẩn thận như `gpt-5.6-sol` và `gpt-6-astra`. Qua khoảng 12.000 tool call, tỉ lệ `cd` gộp vào lệnh giảm từ 35,5% xuống 0,6% (ghi chép thực tế, không phải thử nghiệm có đối chứng; số liệu trong README của skill).
 
-Mỗi thư mục skill có README riêng với chi tiết và bằng chứng.
+**[pre-build-discovery](skills/pre-build-discovery/)**: dùng trước khi vibe một idea hay feat. Hỏi nó "có đáng làm không, có ai làm sẵn chưa" thì nó đi soi các dự án có sẵn và source thật, rồi phán làm, chờ, hoặc bỏ. Nó không viết code, không lên plan. Non-tech cũng dùng ngon.
+
+**[claim-check](skills/claim-check/)**: đọc một hai dòng thấy con model xàm thì nói thẳng "sai rồi, show log đi". Nó không cãi cố, cũng không xuôi theo, mà quay lại kiểm bằng chứng thật rồi báo đúng một kết quả: Confirmed, Corrected hoặc Blocked. Mẹo: tự gọi skill này từ đầu session thì nó thành công tắc "try harder", model phải làm nhiều hơn để mình đọc ít xàm hơn. Trong một cặp A/B cùng model `deepseek-v4-flash`, session có skill đọc source và trả lời đúng; session không có skill đọc README rồi trả lời sai. Đã được load khoảng 140 lần.
+
+**[repo-state-authority](skills/repo-state-authority/)**: cho anh em lười check Git. Nó không phán một branch đã merge là "mất code" chỉ vì diff to, không tin file trạng thái hơn Git, và chỉ xóa branch sau khi đã lưu SHA. Đã dùng khoảng 240 lần.
+
+Mỗi thư mục skill có README riêng kèm bằng chứng.
 
 ## Cài đặt
+
+Dễ nhất: quăng link repo này cho app agent anh em đang dùng, kêu nó tự cài hết, hoặc chỉ cài skill nào anh em muốn.
 
 Bằng [skills CLI](https://github.com/vercel-labs/skills) (Claude Code, Codex và các agent khác):
 
