@@ -1,4 +1,4 @@
-# claude-wannabe-gpt
+# agent-skills
 
 English | [Tiếng Việt](README.vi.md)
 
@@ -8,7 +8,7 @@ Fast agents fail on production in a predictable way: they chain a read, an edit,
 
 This repo packages that strictness as an [Agent Skill](https://agentskills.io): a mindset plus safe defaults. Strict about changes, fast about reads. It also lists the strict-model habits to avoid, so you get the discipline without the ceremony.
 
-The skill is named `production-ops-discipline`. The Agent Skills spec reserves "claude" in skill names, so only the repo carries the joke.
+The skill is named `production-ops-discipline`. It was first published as `duu261/claude-wannabe-gpt`, which now points here. The Agent Skills spec reserves "claude" in skill names, so only the old repo name carried the joke.
 
 ## What it teaches
 
@@ -29,7 +29,7 @@ Built and tuned on Claude Opus 5.5. The mechanical defaults (backups, one change
 Paste this into Claude Code, Codex, Hermes Agent, or any coding agent that supports Agent Skills:
 
 ```text
-Install the Agent Skill "production-ops-discipline" from https://github.com/duu261/claude-wannabe-gpt.
+Install the Agent Skill "production-ops-discipline" from https://github.com/duu261/agent-skills.
 1. Clone the repo into a temporary directory.
 2. Copy the folder skills/production-ops-discipline into the user-level skills directory of the agent you are running in (Claude Code: ~/.claude/skills/, Codex: ~/.agents/skills/, Hermes Agent: ~/.hermes/skills/). If you are not sure which one applies, ask me.
 3. If a folder with that name already exists, stop and ask me before replacing it.
@@ -48,8 +48,8 @@ Copy `skills/production-ops-discipline/` into your harness's skills directory:
 | Hermes Agent | `~/.hermes/skills/` |
 
 ```bash
-git clone https://github.com/duu261/claude-wannabe-gpt
-cp -r claude-wannabe-gpt/skills/production-ops-discipline ~/.claude/skills/
+git clone https://github.com/duu261/agent-skills
+cp -r agent-skills/skills/production-ops-discipline ~/.claude/skills/
 ```
 
 The skill loads when a task touches production. Invoke it directly with `/production-ops-discipline` in Claude Code.

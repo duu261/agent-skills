@@ -1,4 +1,4 @@
-# claude-wannabe-gpt
+# agent-skills
 
 [English](README.md) | Tiếng Việt
 
@@ -10,7 +10,7 @@ Agent nhanh tay thường hỏng việc trên production theo một kiểu dễ 
 
 Repo này đóng gói sự kỹ tính đó thành một [Agent Skill](https://agentskills.io): một tư duy cộng với các mặc định an toàn. Chặt chẽ khi thay đổi, nhanh khi đọc. Skill cũng liệt kê những thói quen của model quá kỹ tính cần tránh, để bạn có kỷ luật mà không bị thủ tục rườm rà.
 
-Skill tên là `production-ops-discipline`. Đặc tả Agent Skills không cho dùng chữ "claude" trong tên skill, nên chỉ tên repo mang câu đùa này.
+Skill tên là `production-ops-discipline`. Skill này ra mắt lần đầu ở `duu261/claude-wannabe-gpt`, repo đó giờ trỏ về đây. Đặc tả Agent Skills không cho dùng chữ "claude" trong tên skill, nên chỉ tên repo cũ mang câu đùa này.
 
 ## Skill dạy gì
 
@@ -31,7 +31,7 @@ Skill tên là `production-ops-discipline`. Đặc tả Agent Skills không cho 
 Dán đoạn này vào Claude Code, Codex, Hermes Agent hoặc agent lập trình nào hỗ trợ Agent Skills:
 
 ```text
-Install the Agent Skill "production-ops-discipline" from https://github.com/duu261/claude-wannabe-gpt.
+Install the Agent Skill "production-ops-discipline" from https://github.com/duu261/agent-skills.
 1. Clone the repo into a temporary directory.
 2. Copy the folder skills/production-ops-discipline into the user-level skills directory of the agent you are running in (Claude Code: ~/.claude/skills/, Codex: ~/.agents/skills/, Hermes Agent: ~/.hermes/skills/). If you are not sure which one applies, ask me.
 3. If a folder with that name already exists, stop and ask me before replacing it.
@@ -52,8 +52,8 @@ Copy `skills/production-ops-discipline/` vào thư mục skill của harness b�
 | Hermes Agent | `~/.hermes/skills/` |
 
 ```bash
-git clone https://github.com/duu261/claude-wannabe-gpt
-cp -r claude-wannabe-gpt/skills/production-ops-discipline ~/.claude/skills/
+git clone https://github.com/duu261/agent-skills
+cp -r agent-skills/skills/production-ops-discipline ~/.claude/skills/
 ```
 
 Skill tự load khi task đụng tới production. Trong Claude Code, gọi trực tiếp bằng `/production-ops-discipline`.
