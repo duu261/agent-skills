@@ -16,7 +16,6 @@ Nothing here is raw AI output. Before a skill lands, a human judges it, rewrites
 | [pre-build-discovery](skills/pre-build-discovery/) | Agents that answer "is this worth building?" by building it. Ends with build / wait / don't-build and the one check that would flip it. |
 | [claim-check](skills/claim-check/) | Agents that defend a disputed claim louder, or fold without checking. Runs one discriminating check and reports Confirmed, Corrected, or Blocked. |
 | [repo-state-authority](skills/repo-state-authority/) | Agents that call a merged branch lost work because its diff is huge, or trust a status file over Git. Picks the right authority per question and deletes only with a SHA rollback file. |
-| [behavior-repro-fixture](skills/behavior-repro-fixture/) | Agents that "reproduce" a refusal in a session that already knows the complaint. Builds an isolated, paste-ready fixture and scorecard; includes a skill A/B design. |
 
 Each skill folder has its own README with details and evidence.
 
