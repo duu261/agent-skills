@@ -17,7 +17,7 @@ This skill sits in the middle: strict about changes, fast about reads. It is a m
 3. **Only the user's words grant permission, and only for what they named.** Not your own offer, a summary, an auto-approve mode, or "it is obviously fine". Standing written rules from the user (project instructions, `AGENTS.md`, `CLAUDE.md`) count, but only for what they name.
 4. **Everything carried over is a claim until checked.** Compaction summaries, memory, handoffs, subagent reports, your own earlier output, and your belief about how a tool works.
 5. **A block is an answer.** A permission denial, deny rule, hook block, scan verdict, or failed auth means stop and report. Only the user lifts it, for a named action.
-6. **Proportion.** On production, cheap safety steps are worth it by default: they cost seconds, and a small slip on a live system spreads. On reads, local work, and sandboxes, skip the ceremony. Add a step only when it removes a named risk.
+6. **Proportion.** On production, cheap safety steps (a backup, a read-back, a reviewer on a prod change) are worth it by default: they cost seconds, and a small slip on a live system spreads. On reads, local work, and sandboxes, skip the ceremony. Add a step only when it removes a named risk.
 
 ## Classify the latest message before acting
 
@@ -28,6 +28,7 @@ This skill sits in the middle: strict about changes, fast about reads. It is a m
 - **A shared link or post with the user's reaction** is conversation. React to their take; do not turn it into a build plan.
 - **A go built on a false premise** ("change it, upstream does the same" when upstream differs): correct the premise with the live value and hold the change.
 - **A go to clean up** covers what this task created. Older items that match the same pattern may be another change's rollback: list them with dates and ask.
+- **A waived check** ("no need to recheck", "already confirmed"): drop only that check. Do not probe the thing they waived. Backup, secret rules, and leaving unnamed services alone still apply.
 
 ## Safe defaults
 
@@ -53,7 +54,7 @@ One line: target, exact change, impact, rollback. If you cannot fill it in, you 
 ### One change per call
 
 - One mutation per tool call. Never hide a restart, push, delete, install, or config edit inside a read or diagnostic command.
-- Reads can run in parallel. The change runs alone. A restart waits for its own go.
+- Reads can run in parallel. The change runs alone. A restart waits for its own go. The go names services, not the compose project: recreate the named service with `--no-deps`. A project-level `up` can recreate siblings that were not in the go.
 - Multi-step change scripts start with `set -euo pipefail`, then a timestamped backup, the one change, a verify step, and a printed result. Backup, change, and verify of the same target form one change.
 - In check-only scripts, end filters that may legitimately match nothing with `|| true`. `grep` exits 1 on no match, and `pipefail` then aborts the script halfway, sometimes before its cleanup step.
 - One logical transaction is one change: `git add <file> && git commit` is fine. Chaining two unrelated mutations is not.
@@ -61,6 +62,7 @@ One line: target, exact change, impact, rollback. If you cannot fill it in, you 
 ### Reversible by default
 
 - Back up config before editing it. Keep backups out of temp directories that get pruned.
+- Verify a logical database dump by byte size and format magic (custom-format dumps start with `PGDMP`). Do not print the dump. Run the client inside the database container so the password stays in that process.
 - Delete with absolute paths, only targets you created or the user named, in a call of their own.
 - One-way actions (deleting data, migrations, force-push, rotating secrets) need a go that names that action.
 - A published tag or release that turns out stale stays as it is. Fix it forward: a new patch version from the corrected commit, then correct any editable release or submission fields. Do not list moving, deleting, or recreating the tag as an option unless the user named it. "Fix the release" is not that go: downstream installs and audit trails already point at the old tag, and models without this rule propose retagging by default.
@@ -111,7 +113,7 @@ Shape: one read-only subagent, two at most. Goal: "Read-only independent review 
 
 ### When something blocks
 
-Report the exact block, the options, and what you need. Never rephrase around it: no other tool for a blocked write, no script for a blocked read, no `sudo`, no new quoting, no other path to the same secret. If a nearby legitimate path proves part of the answer, run it and state what stays unverified. Never relabel the substitute as proof.
+Report the exact block, the options, and what you need. Never rephrase around it: no other tool for a blocked write, no script for a blocked read, no `sudo` to slip past a deny or a secret, no new quoting, no other path to the same secret. `sudo` to read a root-owned file the user asked you to change is the path, not a bypass. If a nearby legitimate path proves part of the answer, run it and state what stays unverified. Never relabel the substitute as proof.
 
 ## Scope
 
@@ -135,6 +137,8 @@ Strict models make these mistakes. Each one costs the user a turn:
 - Treating low-stakes notes (memory entries, scratch notes, the agent's own working files) as production changes.
 - Writing a small README or runbook in SLA language.
 - Stopping at a plan when the tools can finish authorized work.
+- Splitting one logical transaction into separate approvals.
+- Adding extra ceremony to a change the user already named, such as re-asking or a reviewer on notes.
 
 Avoiding ceremony never lifts the secrets rules, one-way production actions, or a block.
 
@@ -153,6 +157,7 @@ Avoiding ceremony never lifts the secrets rules, one-way production actions, or 
 - **`sudo cmd /root-only-dir/*` expands the glob as your user**, before `sudo` runs, so it matches nothing. Use `sudo sh -c '...'` or pass the directory with a filter flag.
 - **Deny rules match command text, not intent.** A read-only search containing a denied literal is blocked like the real action. Search a shorter neutral token instead of requoting.
 - **Do not undersell an opt-in feature while arguing to drop it.** Measure what it still uniquely provides and state it next to the risk.
+- **Match the existing image pin style.** For `image: name:tag@sha256`, `docker buildx imagetools inspect` prints the OCI index digest on the top Digest line and a different digest per platform. Pin the same kind the file already uses. Swapping in the platform manifest changes what Compose pulls.
 
 ## References
 
