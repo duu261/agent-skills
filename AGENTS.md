@@ -19,7 +19,7 @@ Skills come from real work in agent sessions, then a human judges and rewrites t
 2. Make it harness-neutral. Describe actions ("read the file", "search session history", "use a read-only subagent if your harness has one"), not one harness's tool names. Harness-specific mapping goes in `references/`.
 3. Strip the operator: no hostnames, IPs, home paths, usernames, product, pool, or account names, private incident stories, or rules that only make sense on one setup.
 4. Keep claims true. Say "learned" or "refined", not "evaluated", unless a controlled run backs it. Credit models by exact ID (`claude-opus-5-5`, not "Opus").
-5. Add the skill's row to both root READMEs.
+5. Add the skill's row to both root READMEs, and its plugin entry to `.claude-plugin/marketplace.json`.
 6. Validate, then get an independent review before pushing.
 
 ## Editing a skill

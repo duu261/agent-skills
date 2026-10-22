@@ -43,7 +43,7 @@ With [Claude Code](https://code.claude.com/docs/en/plugins/marketplace-reference
 /plugin install claim-check@duu261
 ```
 
-Pick one way per agent: a plugin and the skills CLI together install every skill twice.
+Pick one way per agent: a plugin and the skills CLI together install the same skill twice.
 
 Manual: copy `skills/<name>/` into your harness's skills directory (Claude Code `~/.claude/skills/`, Codex `~/.agents/skills/`, Hermes Agent `~/.hermes/skills/`).
 

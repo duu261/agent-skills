@@ -4,7 +4,7 @@
 
 > Bản dịch có thể chậm hơn bản tiếng Anh. Nếu hai bản khác nhau, bản tiếng Anh là chuẩn.
 
-**Dành cho những ai bảo agent "sai rồi" và nhận về một bài giảng hoặc một lời xin lỗi.**
+**Dành cho những ai bảo agent "sai rồi" và nhận về một bài giảng hoặc một lần xuôi theo.**
 
 Khi bạn phản bác một khẳng định, agent thường làm một trong hai việc. Nó bảo vệ khẳng định bằng đúng lập luận cũ, nói to hơn. Hoặc nó xuôi theo và đồng ý với bạn mà không kiểm tra gì. Cả hai đều không cho bạn biết khẳng định đó có đúng hay không.
 

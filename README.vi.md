@@ -45,7 +45,7 @@ Bằng plugin của [Claude Code](https://code.claude.com/docs/en/plugins/market
 /plugin install claim-check@duu261
 ```
 
-Mỗi agent chỉ chọn một cách: dùng cả plugin lẫn skills CLI sẽ cài mỗi skill hai lần.
+Mỗi agent chỉ chọn một cách: dùng cả plugin lẫn skills CLI sẽ cài cùng một skill hai lần.
 
 Thủ công: copy `skills/<name>/` vào thư mục skill của harness (Claude Code `~/.claude/skills/`, Codex `~/.agents/skills/`, Hermes Agent `~/.hermes/skills/`).
 
