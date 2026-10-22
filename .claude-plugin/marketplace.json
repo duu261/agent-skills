@@ -26,6 +26,20 @@
       "source": "./",
       "strict": false,
       "skills": ["./skills/claim-check"]
+    },
+    {
+      "name": "repo-state-authority",
+      "description": "Decide a repository's real state before cleaning or reporting it: right authority per question, branches classified by ancestry and patch identity, deletes only with a SHA rollback file.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/repo-state-authority"]
+    },
+    {
+      "name": "behavior-repro-fixture",
+      "description": "Reproduce a model refusal or habit in an isolated fresh session with a paste-ready fixture and scorecard, or A/B test whether a skill changes behavior.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/behavior-repro-fixture"]
     }
   ]
 }

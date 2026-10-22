@@ -17,6 +17,8 @@ Không có gì ở đây là output AI để nguyên. Trước khi một skill �
 | [production-ops-discipline](skills/production-ops-discipline/) | Agent nhanh tay trên server thật: gộp sửa và restart, nhìn trộm secret, coi câu "want me to...?" của chính nó là lời đồng ý. Do `claude-opus-5-5` viết, cho `claude-opus-5-5`. |
 | [pre-build-discovery](skills/pre-build-discovery/) | Agent trả lời câu "có đáng làm không?" bằng cách làm luôn. Kết thúc bằng làm / chờ / không làm và một phép kiểm tra có thể lật kết luận. |
 | [claim-check](skills/claim-check/) | Agent bảo vệ một khẳng định bị nghi ngờ bằng cách nói to hơn, hoặc xuôi theo mà không kiểm tra. Chạy một phép kiểm tra phân định và báo Confirmed, Corrected hoặc Blocked. |
+| [repo-state-authority](skills/repo-state-authority/) | Agent coi một branch đã merge là việc bị mất vì diff quá lớn, hoặc tin file trạng thái hơn Git. Chọn đúng nguồn có thẩm quyền cho từng câu hỏi và chỉ xóa khi đã có file SHA để khôi phục. |
+| [behavior-repro-fixture](skills/behavior-repro-fixture/) | Agent "tái hiện" một lần từ chối ngay trong phiên đã biết lời phàn nàn. Dựng fixture cô lập, dán được ngay, kèm bảng chấm điểm; có thiết kế A/B cho skill. |
 
 Mỗi thư mục skill có README riêng với chi tiết và bằng chứng.
 
