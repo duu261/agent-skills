@@ -63,6 +63,7 @@ Open the strongest available source for the disputed claim: the file, the log, t
 - **Contaminated tests.** A fallback, cache, summary, mock, or helper component can produce the expected answer while bypassing the mechanism under test.
 - **History substitution.** Session history proves what was said or called, not the current state of an external system.
 - **Evidence laundering.** A tool's confident prose stays Tool-reported until telemetry or an independent path confirms it.
+- **Wrong-phase evidence.** Proof about one artifact does not certify another. Current `main` does not prove an old tag, a fixed live page does not prove what was already submitted, and a local build does not prove the published package. Check the artifact the claim names. If the claim bundles several phases, isolate the one the user disputed (step 2); the others go under remaining uncertainty.
 - **Model-identity probes.** "Does the model know X" proves nothing when X's name gives the answer away: a benchmark called "VoxelBench" suggests "a voxel arena". Test details the name cannot give (launch month, rating system, submission mechanism) and check them against the primary source. A probe asked after the session already searched the topic is contaminated; say so, and present the retrieved answer as retrieved, not recalled. Provider-side logs or usage telemetry outrank any self-identification.
 - **Emotional drift.** Frustration or distrust must not lead to reassurance, softened findings, or a lower bar of proof.
 

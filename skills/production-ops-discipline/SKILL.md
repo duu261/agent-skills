@@ -36,7 +36,7 @@ This skill sits in the middle: strict about changes, fast about reads. It is a m
 - Read files, search, check logs, and inspect state without asking. Production caution gates changes, not reads.
 - Do the check yourself. Never end with "the log would show X" when you can open the log.
 - Re-check carried-over state live before acting on it.
-- A negative claim ("nothing sets X") needs a check that could have found a positive at the layer where X is set. Without that check, say "not checked", not "none".
+- A negative claim ("nothing sets X") needs a check that could have found a positive at the layer where X is set. Without that check, say "not checked", not "none". An empty `git diff` is not that check for a missing file: untracked and ignored files never show in it.
 
 ### Prefer the harness's own tools
 
@@ -63,6 +63,7 @@ One line: target, exact change, impact, rollback. If you cannot fill it in, you 
 - Back up config before editing it. Keep backups out of temp directories that get pruned.
 - Delete with absolute paths, only targets you created or the user named, in a call of their own.
 - One-way actions (deleting data, migrations, force-push, rotating secrets) need a go that names that action.
+- A published tag or release that turns out stale stays as it is. Fix it forward: a new patch version from the corrected commit, then correct any editable release or submission fields. Do not list moving, deleting, or recreating the tag as an option unless the user named it. "Fix the release" is not that go: downstream installs and audit trails already point at the old tag, and models without this rule propose retagging by default.
 - Most file-edit tools write a temp file and rename it over the target, which replaces the inode and detaches a single-file bind mount. For those files, edit a staged copy, then `cp` it over the target as its own step and confirm the inode did not change.
 
 ### Secrets
@@ -80,6 +81,7 @@ One line: target, exact change, impact, rollback. If you cannot fill it in, you 
 - After each change: verify it, report it, then start the next one.
 - External writes (API calls, posted messages, record updates): read the target back before claiming success. A successful tool call is not a successful task.
 - After a push, compare local `HEAD` with the remote ref.
+- Verify the artifact the claim is about, not a newer or easier one. A release claim needs the tagged tree, not current `main`. A package claim needs a clean install from the registry, not a local build. A publication claim needs the logged-out page, not an authenticated preview. Fixed current state does not repair a historical artifact; report the gap instead.
 - Config changes: re-read the file and check service health.
 - Do not re-verify what the tool already confirmed, such as an edit tool's diff.
 - A verify step must be able to fail. `git diff A B --stat && echo identical` always echoes, because `git diff` exits 0 when trees differ. Use a check that exits nonzero on failure (`git diff --quiet`, `cmp -s`, `test`).
@@ -143,6 +145,10 @@ Avoiding ceremony never lifts the secrets rules, one-way production actions, or 
 - **Declared totals are assertions.** When a response says `total` or `has_more` and your count differs, fetch again or parse programmatically.
 - **Never repair identifiers.** Keep IDs, commands, and values exactly as given. A malformed ID that still resolves is still malformed.
 - **Separate failure layers before fixing:** harness, fixture, config, external service, product. Run the cheapest check that tells them apart, fix only the owning layer, rerun the same path.
+  - Freeze the failure first: exact error, state, last passing state. A blind restart, cleanup, or upgrade destroys that evidence and makes a passing retry ambiguous. Check process state before calling something hung.
+  - Never patch product code to satisfy a broken harness or fixture, and never dismiss a reproducible product defect as environment noise. Either way the wrong layer changes: a test-only workaround ships, or the real bug stays.
+  - A different check that passes diagnoses; it does not prove recovery. Only the same acceptance path does.
+- **"Ahead" is not "unmerged".** A branch is merged when `git rev-list --left-right --count main...<branch>` shows 0 on the right and `git cherry main <branch>` prints no `+` lines, even when `git diff main <branch>` is thousands of lines; that diff only shows how far `main` moved on. A revert chain can still show as unique in `git cherry`, so judge the final behavior before calling a branch lost work or deleting it.
 - **Reuse checks.** A passing result stays valid until code, config, environment, or the claim changes.
 - **`sudo cmd /root-only-dir/*` expands the glob as your user**, before `sudo` runs, so it matches nothing. Use `sudo sh -c '...'` or pass the directory with a filter flag.
 - **Deny rules match command text, not intent.** A read-only search containing a denied literal is blocked like the real action. Search a shorter neutral token instead of requoting.

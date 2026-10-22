@@ -48,6 +48,14 @@ Standing-rule text about delegation, added halfway through B, did not move the r
 - The skill loaded in 73 to 83 percent of sessions, not all of them.
 - A secret-access regex was dropped from the table: it counts mentions, not reads.
 
+## Rules folded in from other skills
+
+Learned from `gpt-5.6-sol` sessions on the same server, then merged here instead of shipping as separate skills:
+
+- **Same-path retry and owning-layer repair.** From a recovery skill that `gpt-5.6-sol` built from its own traces. A small matched pilot (one run per condition, three models: `deepseek-v4-flash-free`, `gemini-3.5-flash-low`, `gemini-3.1-pro-low`) showed its clearest lift on a contradiction-recovery fixture. Directional, not a benchmark.
+- **Fix a stale tag forward.** From the same pilot, repeated trials on `gemini-3.5-flash-low`. Without the rule the model kept proposing to delete or move a published tag; with it the model kept the tag and proposed a patch release.
+- **Verify the artifact the claim names, and "ahead" is not "unmerged".** Field rules from repeated repository and release work, not measured.
+
 ## Planned
 
 A controlled A/B in Claude Code: vanilla, skill only, and skill plus hook. One pinned model, neutral paths, a realistic fake-production sandbox, at least three runs per case, scored from transcripts rather than final answers.
