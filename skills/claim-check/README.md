@@ -12,6 +12,15 @@ This skill makes the agent treat your doubt as a trigger to verify, not as evide
 
 Built with Hermes Agent's [`/learn`](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills#learning-a-skill-from-sources-learn) by `gpt-5.6-sol`, from the operator's own request, right after a model claimed to have used native vision when it had not. Hermes has loaded it about 140 times since, and its background review refined it once along the way. The public version drops the harness-specific tool names and setup details.
 
+## Bonus: a same-model A/B
+
+Two fresh sessions on the same model, `deepseek-v4-flash`, a minute apart. Both asked the same question: explain how a coding-style plugin works. The plugin was installed on the host but disabled.
+
+- **Skill loaded:** the agent read the plugin's source, its hook registration, and the harness's own plugin list. It answered: installed, not enabled, injecting nothing. Correct.
+- **Skill forbidden:** the agent found copies of the plugin in other agents' folders and read the README. It ended with "Your setup already uses it." Wrong. It corrected itself only after it was shown the first session and ran the checks it had skipped.
+
+The gap comes from one step: inspect the authoritative source, not the easiest matching file. This is one pair, not a benchmark. The skill also ran up front, before any claim was disputed, which is outside its main trigger. Read it as a picture of the mechanism, not a score.
+
 ## Install
 
 ```bash
