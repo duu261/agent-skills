@@ -1,0 +1,31 @@
+{
+  "name": "duu261",
+  "owner": {
+    "name": "Duu",
+    "url": "https://github.com/duu261"
+  },
+  "description": "Agent skills from real work, not toy tasks. Learned in Hermes Agent sessions, judged and rewritten by a human.",
+  "plugins": [
+    {
+      "name": "production-ops-discipline",
+      "description": "Strict about changes, fast about reads: approval gating, one change per call, backups, secret hygiene, and review on fixed triggers for agents on live servers.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/production-ops-discipline"]
+    },
+    {
+      "name": "pre-build-discovery",
+      "description": "Decide build, wait, or don't-build before any code: fix the terms, sweep prior art, read constraints from source, and end with a verdict plus the one check that would flip it.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/pre-build-discovery"]
+    },
+    {
+      "name": "claim-check",
+      "description": "Recheck a disputed claim from independent evidence instead of defending or folding, and report Confirmed, Corrected, or Blocked.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/claim-check"]
+    }
+  ]
+}

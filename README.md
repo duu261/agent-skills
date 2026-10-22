@@ -14,6 +14,7 @@ Nothing here is raw AI output. Before a skill lands, a human judges it, rewrites
 |---|---|
 | [production-ops-discipline](skills/production-ops-discipline/) | Fast agents on live servers: chained edits and restarts, peeking at secrets, acting on their own "want me to...?". Written by `claude-opus-5-5`, for `claude-opus-5-5`. |
 | [pre-build-discovery](skills/pre-build-discovery/) | Agents that answer "is this worth building?" by building it. Ends with build / wait / don't-build and the one check that would flip it. |
+| [claim-check](skills/claim-check/) | Agents that defend a disputed claim louder, or fold without checking. Runs one discriminating check and reports Confirmed, Corrected, or Blocked. |
 
 Each skill folder has its own README with details and evidence.
 
@@ -34,6 +35,15 @@ hermes skills install duu261/agent-skills/skills/<name>
 # or subscribe to the whole repo
 hermes skills tap add duu261/agent-skills
 ```
+
+With [Claude Code](https://code.claude.com/docs/en/plugins/marketplace-reference) plugins, one plugin per skill:
+
+```text
+/plugin marketplace add duu261/agent-skills
+/plugin install claim-check@duu261
+```
+
+Pick one way per agent: a plugin and the skills CLI together install every skill twice.
 
 Manual: copy `skills/<name>/` into your harness's skills directory (Claude Code `~/.claude/skills/`, Codex `~/.agents/skills/`, Hermes Agent `~/.hermes/skills/`).
 

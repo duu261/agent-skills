@@ -16,6 +16,7 @@ Không có gì ở đây là output AI để nguyên. Trước khi một skill �
 |---|---|
 | [production-ops-discipline](skills/production-ops-discipline/) | Agent nhanh tay trên server thật: gộp sửa và restart, nhìn trộm secret, coi câu "want me to...?" của chính nó là lời đồng ý. Do `claude-opus-5-5` viết, cho `claude-opus-5-5`. |
 | [pre-build-discovery](skills/pre-build-discovery/) | Agent trả lời câu "có đáng làm không?" bằng cách làm luôn. Kết thúc bằng làm / chờ / không làm và một phép kiểm tra có thể lật kết luận. |
+| [claim-check](skills/claim-check/) | Agent bảo vệ một khẳng định bị nghi ngờ bằng cách nói to hơn, hoặc xuôi theo mà không kiểm tra. Chạy một phép kiểm tra phân định và báo Confirmed, Corrected hoặc Blocked. |
 
 Mỗi thư mục skill có README riêng với chi tiết và bằng chứng.
 
@@ -36,6 +37,15 @@ hermes skills install duu261/agent-skills/skills/<name>
 # hoặc thêm cả repo làm tap
 hermes skills tap add duu261/agent-skills
 ```
+
+Bằng plugin của [Claude Code](https://code.claude.com/docs/en/plugins/marketplace-reference), mỗi skill là một plugin:
+
+```text
+/plugin marketplace add duu261/agent-skills
+/plugin install claim-check@duu261
+```
+
+Mỗi agent chỉ chọn một cách: dùng cả plugin lẫn skills CLI sẽ cài mỗi skill hai lần.
 
 Thủ công: copy `skills/<name>/` vào thư mục skill của harness (Claude Code `~/.claude/skills/`, Codex `~/.agents/skills/`, Hermes Agent `~/.hermes/skills/`).
 
