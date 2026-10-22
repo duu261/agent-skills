@@ -13,5 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.0
-      - name: Validate skill against the Agent Skills spec
-        run: uvx --from skills-ref==0.1.1 agentskills validate skills/production-ops-discipline
+      - name: Validate every skill against the Agent Skills spec
+        run: |
+          set -euo pipefail
+          for d in skills/*/; do
+            uvx --from skills-ref==0.1.1 agentskills validate "$d"
+          done
