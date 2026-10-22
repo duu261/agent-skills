@@ -44,6 +44,7 @@ A status file, handoff, or summary is a claim about one of these. Read the ownin
    - Right count 0, or every cherry line `-`, means merged. This holds even when `git diff main <branch>` shows thousands of lines; that diff only measures how far `main` moved on.
    - `git cherry` reports a revert chain as unique even when `main` already has the final behavior. For each branch with `+` lines, decide which it is: equivalent patch already on `main`, squash-merged PR, deliberately reverted experiment, or genuinely missing behavior. Only the last is lost work.
    - A worktree under a temporary or auto-pruned directory will vanish with its uncommitted files. Flag it.
+   - [scripts/classify_branches.sh](scripts/classify_branches.sh) runs both checks for every local branch except the base itself (local `main` is included when the base is `origin/main`, so unpushed commits show up) and prints same as base, merged, equivalent, or unique per branch, plus whether it is checked out in a worktree. It is read-only; pass a backup file path as the second argument to also write the step 7 rollback list. Run `git fetch` first when remote refs matter. It does not judge revert chains; that stays your call.
 
 3. **Keep three identities apart.** The deployed revision, the source branch it was built from, and the canonical commit after a merge can all differ correctly. A merge commit can be canonical while production rightly stays on its tested parent. Report all three instead of calling the difference drift.
 
