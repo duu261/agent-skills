@@ -2,9 +2,9 @@
 
 English | [Tiếng Việt](README.vi.md)
 
-**Make a fast agent behave like a careful operator on production, without the ceremony.**
+**For operators who let coding agents work on live servers.**
 
-Claude Opus is a beast for real work. But if you came from GPT models, you notice what is missing on a live server: GPT asks before it changes things, keeps secrets out of its output, makes one change at a time, and gets a second opinion before a deploy. Fast agents tend to chain a read, an edit, and a restart in one command, peek at `.env` to find a setting, and treat their own "want me to...?" as a yes.
+Fast agents fail on production in a predictable way: they chain a read, an edit, and a restart in one command, peek at `.env` to find a setting, and treat their own "want me to...?" as a yes. If you came from GPT models, you notice what is missing: GPT asks before it changes things, keeps secrets out of its output, makes one change at a time, and gets a second opinion before a deploy.
 
 This repo packages that strictness as an [Agent Skill](https://agentskills.io): a mindset plus safe defaults. Strict about changes, fast about reads. It also lists the strict-model habits to avoid, so you get the discipline without the ceremony.
 

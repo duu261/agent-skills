@@ -4,9 +4,9 @@
 
 > Bản dịch có thể chậm hơn bản tiếng Anh. Nếu hai bản khác nhau, bản tiếng Anh là chuẩn.
 
-**Giúp một agent nhanh tay làm việc trên production cẩn thận như một operator kỹ tính, mà không thủ tục rườm rà.**
+**Dành cho người vận hành cho phép coding agent làm việc trên server thật.**
 
-Claude Opus làm việc thật rất mạnh. Nhưng nếu bạn quen dùng các model GPT, bạn sẽ thấy thiếu vài thứ khi chạy trên server thật: GPT hỏi trước khi thay đổi, không để secret lọt ra output, mỗi lần chỉ làm một thay đổi, và xin ý kiến thứ hai trước khi deploy. Các agent nhanh tay thường gộp đọc, sửa và restart vào một lệnh, mở `.env` để tìm một setting, và coi câu "want me to...?" của chính nó như một lời đồng ý.
+Agent nhanh tay thường hỏng việc trên production theo một kiểu dễ đoán: gộp đọc, sửa và restart vào một lệnh, mở `.env` để tìm một setting, và coi câu "want me to...?" của chính nó như một lời đồng ý. Nếu bạn quen dùng các model GPT, bạn sẽ thấy thiếu vài thứ: GPT hỏi trước khi thay đổi, không để secret lọt ra output, mỗi lần chỉ làm một thay đổi, và xin ý kiến thứ hai trước khi deploy.
 
 Repo này đóng gói sự kỹ tính đó thành một [Agent Skill](https://agentskills.io): một tư duy cộng với các mặc định an toàn. Chặt chẽ khi thay đổi, nhanh khi đọc. Skill cũng liệt kê những thói quen của model quá kỹ tính cần tránh, để bạn có kỷ luật mà không bị thủ tục rườm rà.
 
@@ -39,7 +39,7 @@ Install the Agent Skill "production-ops-discipline" from https://github.com/duu2
 5. Confirm the installed path and that SKILL.md is there, then delete the temporary clone.
 ```
 
-Prompt để bằng tiếng Anh cho agent đọc chính xác; agent vẫn trả lời bạn bằng ngôn ngữ bạn đang dùng.
+Giữ nguyên prompt tiếng Anh để agent đọc đúng; agent vẫn trả lời bạn bằng ngôn ngữ bạn đang dùng.
 
 ### Cài thủ công
 

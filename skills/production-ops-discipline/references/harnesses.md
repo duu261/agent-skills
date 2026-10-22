@@ -30,7 +30,7 @@ The core skill is harness-neutral. This file maps it to specific harnesses. Chec
 
 ### Optional delegation hook (Claude Opus 5.5)
 
-**Problem.** Claude Opus 5.5 rarely spawns subagents or asks another model for review on its own initiative, even when the skill, project instructions (`CLAUDE.md`, `AGENTS.md`), or a system prompt tell it to. In the field notes it delegated reliably only when the latest user message itself said to use another model. Community reports describe a post-release fix in the Opus 5 line that stops the model from calling subagents autonomously, after autonomous subagents burned through usage limits. That cause is reported, not confirmed by Anthropic; the behavior is what was observed.
+**Problem.** Claude Opus 5.5 rarely spawns subagents or asks another model for review on its own initiative, even when the skill, project instructions (`CLAUDE.md`, `AGENTS.md`), or a system prompt tell it to. In the field notes it delegated reliably only when the latest user message itself said to use another model. The cause is unknown; this note describes observed behavior only.
 
 **Why a hook.** Standing rules are not read as a user request for this decision. A per-turn hook puts the directive next to the user's latest message, which is where the model looks for permission. In the field notes, delegation stayed at 0.28 subagent calls per session with the skill and standing rules, then rose to 1.63 after the hook (see [evidence.md](evidence.md)). The hook there was appended to the user turn without a label; a labeled "system note" was more likely to be skimmed as not coming from the user.
 
