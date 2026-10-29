@@ -55,6 +55,10 @@ Learned from `gpt-5.6-sol` sessions on the same server, then merged here instead
 - **Same-path retry and owning-layer repair.** From a recovery skill that `gpt-5.6-sol` built from its own traces. A small matched pilot (one run per condition, three models: `deepseek-v4-flash-free`, `gemini-3.5-flash-low`, `gemini-3.1-pro-low`) showed its clearest lift on a contradiction-recovery fixture. Directional, not a benchmark.
 - **Fix a stale tag forward.** From the same pilot, repeated trials on `gemini-3.5-flash-low`. Without the rule the model kept proposing to delete or move a published tag; with it the model kept the tag and proposed a patch release.
 - **Verify the artifact the claim names, and "ahead" is not "unmerged".** Field rules from repeated repository and release work, not measured.
+- **October 2026 port.** From the private working copy after a reviewed trim, from the operator's standing rules, and from an external `gpt-5.6`-family review of this skill. Field rules, not measured:
+  - *Private working copy:* numbered and mixed replies, shortlist follow-ups, scheduled destructive work as a reminder, allowlist argument guards, masked display versus bytes on disk, proving the user's exact path, shared-checkout branch hygiene, and the reviewer rules (restate constraints, never hand over the gated command, correctness-only scope, dispatch after the write, check reviewer-supplied flags and quotes).
+  - *Standing rules:* state your reading of a terse request, never fill a gap with plausible output, and retry once with a change that separates causes.
+  - *External review:* the untrusted-input boundary and retry by failure class. Its broader points (harness enforcement, sandboxing, deploy gates) need harness features, not skill text, so they stay out.
 
 ## Planned
 
