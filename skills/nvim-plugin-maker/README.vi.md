@@ -8,7 +8,7 @@
 
 Model học Neovim từ code viết trước ngày cutoff của nó. Neovim thì liên tục đổi tên: 0.12 đổi key `buffer` thành `buf` và `vim.diff` thành `vim.text.diff`, còn 0.13 chuyển các hàm `vim.uri_*` vào `vim.uri`. Agent còn hay gọi `vim.api` bên trong callback của `vim.uv`, bị lỗi `E5560`, và để timer mở đến mức `make test` treo.
 
-Skill này cho agent một layout plugin, một bộ test plenary chạy headless, các quy tắc để plugin không làm crash hay treo editor, và một bản tham chiếu API. Mỗi khẳng định về API đều ghi rõ phiên bản Neovim mà nó đúng. `scripts/verify.lua` chạy các khẳng định đó trên Neovim thật (37 phép kiểm tra), và CI chạy nó hằng tuần trên 0.11.6, stable và nightly. Khi Neovim thay đổi, build sẽ fail thay vì tài liệu âm thầm sai.
+Skill này cho agent một layout plugin, một bộ test plenary chạy headless, các quy tắc để plugin không làm crash hay treo editor, và một bản tham chiếu API. Mỗi khẳng định API dễ thay đổi theo phiên bản đều ghi rõ phiên bản Neovim mà nó đúng. `scripts/verify.lua` chạy các khẳng định đó trên Neovim thật (37 phép kiểm tra), và CI chạy nó hằng tuần trên 0.11.6, stable và nightly. Khi Neovim thay đổi, build sẽ fail thay vì tài liệu âm thầm sai.
 
 ## Nguồn gốc
 

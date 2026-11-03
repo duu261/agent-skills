@@ -52,7 +52,7 @@ vim.api.nvim_buf_set_extmark(buf, ns, row, col, {
   end_row = row, end_col = col_end,   -- highlight range
   hl_group = "Search",
   virt_text = { { "text", "Comment" } },
-  virt_text_pos = "eol",              -- "eol" | "overlay" | "right_align" | "inline" (verify inline)
+  virt_text_pos = "eol",              -- common: "eol" | "overlay" | "right_align" | "inline" (verify inline)
   sign_text = ">>",                   -- 1-2 cells in the sign column
 })
 
@@ -97,7 +97,8 @@ Which callbacks run in a fast event, where `vim.api` fails with `E5560`:
 
 | Callback | Fast event? |
 |---|---|
-| `vim.uv` timer, socket, fs_event, fs_poll callbacks | yes *(verify)* |
+| `vim.uv` timer callbacks | yes *(verify)* |
+| `vim.uv` socket, fs_event, fs_poll callbacks | yes (same libuv loop, see `:help E5560`) |
 | `vim.system(cmd, opts, on_exit)` `on_exit` | yes *(verify)* |
 | `vim.fn.jobstart` `on_exit` / `on_stdout` | no *(verify on_exit)* |
 | autocmd callbacks, user command callbacks, `vim.schedule` | no |

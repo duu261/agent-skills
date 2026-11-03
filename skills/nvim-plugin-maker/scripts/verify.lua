@@ -181,8 +181,14 @@ end)
 check("api", "keymap opt 'buffer' accepted and stays buffer-local", function()
   vim.keymap.set("n", "<Plug>(verify-a)", "<Nop>", { buffer = scratch })
   local global = vim.fn.maparg("<Plug>(verify-a)", "n", false, true)
+  local is_local = false
+  for _, m in ipairs(vim.api.nvim_buf_get_keymap(scratch, "n")) do
+    if m.lhs == "<Plug>(verify-a)" then
+      is_local = true
+    end
+  end
   vim.keymap.del("n", "<Plug>(verify-a)", { buffer = scratch })
-  return vim.tbl_isempty(global)
+  return vim.tbl_isempty(global) and is_local
 end)
 
 check("api", "keymap opt 'buf' accepted exactly from 0.12", function()
@@ -197,15 +203,16 @@ check("api", "notify_once returns true, then false", function()
     shown = shown + 1
   end
   local msg = "verify-notify-once-" .. tostring(vim.uv.hrtime())
-  local first = vim.notify_once(msg, vim.log.levels.INFO)
-  local second = vim.notify_once(msg, vim.log.levels.INFO)
+  local ok, first, second = pcall(function()
+    return vim.notify_once(msg, vim.log.levels.INFO), vim.notify_once(msg, vim.log.levels.INFO)
+  end)
   vim.notify = real
-  return first == true and second == false and shown == 1
+  return ok and first == true and second == false and shown == 1
 end)
 
 check("api", "file URI: vim.uri.from_fname from 0.13, vim.uri_from_fname still present", function()
   if has("0.13") then
-    return type(vim.uri.from_fname) == "function"
+    return type(vim.uri.from_fname) == "function" and type(vim.uri_from_fname) == "function"
   end
   return type(vim.uri_from_fname) == "function"
 end)

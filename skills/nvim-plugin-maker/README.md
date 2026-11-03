@@ -6,7 +6,7 @@ English | [Tiếng Việt](README.vi.md)
 
 Models learn Neovim from code written before their cutoff. Neovim keeps renaming things: 0.12 renamed the `buffer` key to `buf` and `vim.diff` to `vim.text.diff`, and 0.13 moves the `vim.uri_*` functions under `vim.uri`. Agents also call `vim.api` inside `vim.uv` callbacks, which fails with `E5560`, and leave timers open until `make test` hangs.
 
-This skill gives the agent a plugin layout, a headless plenary test harness, the rules that keep a plugin from crashing or wedging the editor, and an API reference. Every API claim is tagged with the Neovim version it holds for. `scripts/verify.lua` runs those claims against a real Neovim (37 checks), and CI runs it every week on 0.11.6, stable, and nightly. When Neovim changes something, the build fails instead of the reference going quietly wrong.
+This skill gives the agent a plugin layout, a headless plenary test harness, the rules that keep a plugin from crashing or wedging the editor, and an API reference. Every version-sensitive API claim is tagged with the Neovim version it holds for. `scripts/verify.lua` runs those claims against a real Neovim (37 checks), and CI runs it every week on 0.11.6, stable, and nightly. When Neovim changes something, the build fails instead of the reference going quietly wrong.
 
 ## Where it came from
 

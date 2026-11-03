@@ -8,7 +8,7 @@ license: MIT
 
 Pure Lua plugins: correct layout, a headless test harness, callbacks that cannot take the editor down, and a clean release. No Node, no Rust, no runtime dependencies unless the user asks.
 
-The references are the main value here. Neovim renames APIs between releases (0.12 renamed the `buffer` key to `buf`, `vim.diff` to `vim.text.diff`), and a model trained before a release writes the old names. Every API claim in `references/` carries the version it holds for, and `scripts/verify.lua` checks them on the Neovim you run.
+The references are the main value here. Neovim renames APIs between releases (0.12 renamed the `buffer` key to `buf`, `vim.diff` to `vim.text.diff`), and a model trained before a release writes the old names. Every version-sensitive claim in `references/` carries the version it holds for, and `scripts/verify.lua` checks them on the Neovim you run.
 
 ## When to Use
 
@@ -53,7 +53,7 @@ myplugin.nvim/
 
 ## P0: never crash or wedge Neovim
 
-These are the failures that get a plugin uninstalled. Each one is checked by `scripts/verify.lua`.
+These are the failures that get a plugin uninstalled. `scripts/verify.lua` checks the fast-event and handle-close rules.
 
 - **Fast events cannot touch the editor.** `vim.uv` callbacks (timers, sockets, fs events) and `vim.system` `on_exit` callbacks run in a fast event. Calling `vim.api`, most of `vim.fn`, or reading buffers there fails with `E5560: ... must not be called in a fast event context`. Wrap the editor work in `vim.schedule()` or the callback in `vim.schedule_wrap()`. `jobstart` callbacks are not fast. `vim.in_fast_event()` tells you where you are.
 - **Catch errors in every callback Neovim or libuv calls.** An uncaught error there does not kill Neovim, but the user gets a stack trace, and the code after the error never runs, so the handle you meant to close stays open. Wrap the body in `pcall`, notify once, log the detail.
