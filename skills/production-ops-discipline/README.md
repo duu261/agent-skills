@@ -10,7 +10,7 @@ Fast agents fail on production in a predictable way: they chain a read, an edit,
 
 This skill packages that strictness as an [Agent Skill](https://agentskills.io): a mindset plus safe defaults. Strict about changes, fast about reads. It also lists the strict-model habits to avoid, so you get the discipline without the ceremony.
 
-The skill is named `production-ops-discipline`. It was first published as `duu261/claude-wannabe-gpt`, which now points here. The Agent Skills spec reserves "claude" in skill names, so only the old repo name carried the joke.
+The skill is named `production-ops-discipline`. It was first published as `duu261/claude-wannabe-gpt`, which now points here. Anthropic's [skill naming rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) reserve "claude" in skill names, so only the old repo name carried the joke.
 
 ## What it teaches
 

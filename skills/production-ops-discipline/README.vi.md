@@ -12,7 +12,7 @@ Agent nhanh tay thường hỏng việc trên production theo một kiểu dễ 
 
 Skill này đóng gói sự kỹ tính đó thành một [Agent Skill](https://agentskills.io): một tư duy cộng với các mặc định an toàn. Chặt chẽ khi thay đổi, nhanh khi đọc. Skill cũng liệt kê những thói quen của model quá kỹ tính cần tránh, để bạn có kỷ luật mà không bị thủ tục rườm rà.
 
-Skill tên là `production-ops-discipline`. Skill này ra mắt lần đầu ở `duu261/claude-wannabe-gpt`, repo đó giờ trỏ về đây. Đặc tả Agent Skills không cho dùng chữ "claude" trong tên skill, nên chỉ tên repo cũ mang câu đùa này.
+Skill tên là `production-ops-discipline`. Skill này ra mắt lần đầu ở `duu261/claude-wannabe-gpt`, repo đó giờ trỏ về đây. [Quy tắc đặt tên skill](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) của Anthropic không cho dùng chữ "claude" trong tên skill, nên chỉ tên repo cũ mang câu đùa này.
 
 ## Skill dạy gì
 
