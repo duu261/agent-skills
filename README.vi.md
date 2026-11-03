@@ -10,7 +10,7 @@ Sau đó mình check lại từng cái bằng tay, bỏ hết những gì chỉ 
 
 ## Skills
 
-**[production-ops-discipline](skills/production-ops-discipline/)**: cho agent làm việc trên server thật. Nó thôi gộp sửa với restart vào một lệnh, thôi mò `.env`, và thôi coi câu "want me to...?" của chính nó là được phép. Nó chỉ hỏi trước khi sửa, đọc với chạy test thì không hỏi. Mình làm riêng cho `claude-opus-5-5` để nó cẩn thận như `gpt-5.6-sol` và `gpt-6-astra`. Qua khoảng 12.000 tool call, tỉ lệ `cd` gộp vào lệnh giảm từ 35,5% xuống 0,6% (ghi chép thực tế, không phải thử nghiệm có đối chứng; số liệu trong README của skill).
+**[production-ops-discipline](skills/production-ops-discipline/)**: cho agent làm việc trên server thật. Nó thôi gộp sửa với restart vào một lệnh, thôi mò `.env`, và thôi coi câu "want me to...?" của chính nó là được phép. Nó chỉ hỏi trước khi sửa, đọc với chạy test thì không hỏi. Mình làm riêng cho `claude-opus-5-5` để nó cẩn thận như `gpt-5.6-sol` và `gpt-6-astra`. Tỉ lệ lệnh shell có gộp `cd` giảm từ 35,5% trên 265 lần gọi trước đó xuống 0,6% trên 1.079 lần sau (ghi chép thực tế, không phải thử nghiệm có đối chứng; số liệu trong README của skill).
 
 **[pre-build-discovery](skills/pre-build-discovery/)**: dùng trước khi vibe một idea hay feat. Hỏi nó "có đáng làm không, có ai làm sẵn chưa" thì nó đi soi các dự án có sẵn và source thật, rồi phán làm, chờ, hoặc bỏ. Nó không viết code, không lên plan. Non-tech cũng dùng ngon.
 

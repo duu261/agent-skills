@@ -8,7 +8,7 @@ Then I go through each one by hand. I cut whatever only makes sense on my setup 
 
 ## Skills
 
-**[production-ops-discipline](skills/production-ops-discipline/)**: for agents on a live server. It stops chaining an edit and a restart in one command, stops peeking at `.env`, and stops treating its own "want me to...?" as a yes. It asks before changes, never before reads or tests. I built it for `claude-opus-5-5` so it would be as careful as `gpt-5.6-sol` and `gpt-6-astra`. Across about 12,000 tool calls, `cd` chained into commands dropped from 35.5% to 0.6% (field notes, not a controlled test; numbers in its README).
+**[production-ops-discipline](skills/production-ops-discipline/)**: for agents on a live server. It stops chaining an edit and a restart in one command, stops peeking at `.env`, and stops treating its own "want me to...?" as a yes. It asks before changes, never before reads or tests. I built it for `claude-opus-5-5` so it would be as careful as `gpt-5.6-sol` and `gpt-6-astra`. The share of shell calls with `cd` chained in dropped from 35.5% of 265 before to 0.6% of 1,079 after (field notes, not a controlled test; numbers in its README).
 
 **[pre-build-discovery](skills/pre-build-discovery/)**: use it before you vibe-code an idea or a feature. Ask "is this worth building, does it exist already?" and it digs through prior art and the real source, then says build, wait, or don't. It writes no code and no plan. You don't need to be technical to use it.
 

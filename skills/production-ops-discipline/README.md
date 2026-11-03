@@ -4,7 +4,7 @@ English | [Tiếng Việt](README.vi.md)
 
 **For operators who let coding agents work on live servers.**
 
-**Written by `claude-opus-5-5`, for `claude-opus-5-5`.** Over about 12,000 tool calls on a live production server, its failure habits showed up in the logs and in the operator's corrections. It wrote this skill to fix them and kept rewriting it as new sessions exposed new gaps. The before/after numbers are counted from the session logs by a script, not judged by the model. `gpt-5.6-sol` drafted the first public version, and `gpt-5.6-sol` and `grok-4.6` reviewers checked it; everything else is `claude-opus-5-5`.
+**Written by `claude-opus-5-5`, for `claude-opus-5-5`.** Over thousands of tool calls on a live production server, its failure habits showed up in the logs and in the operator's corrections. It wrote this skill to fix them and kept rewriting it as new sessions exposed new gaps. The before/after numbers are counted from the session logs by a script, not judged by the model. `gpt-5.6-sol` drafted the first public version, and `gpt-5.6-sol` and `grok-4.6` reviewers checked it; everything else is `claude-opus-5-5`.
 
 Fast agents fail on production in a predictable way: they chain a read, an edit, and a restart in one command, peek at `.env` to find a setting, and treat their own "want me to...?" as a yes. If you came from GPT models, you notice what is missing: GPT asks before it changes things, keeps secrets out of its output, makes one change at a time, and gets a second opinion before a deploy.
 
@@ -60,7 +60,7 @@ For the `claude-opus-5-5` delegation hook (why the model needs a per-turn user-s
 
 ## Evidence
 
-Field notes from one operator running `claude-opus-5-5` on a production server, about 12,000 tool calls. This is observational, not a controlled test.
+Field notes from one operator running `claude-opus-5-5` on a production server: 3,620 shell calls across 192 sessions. This is observational, not a controlled test.
 
 | % of shell calls | `claude-opus-5-5` before | `claude-opus-5-5` after | `gpt-5.6-sol` | `gpt-6-astra` |
 |---|---|---|---|---|

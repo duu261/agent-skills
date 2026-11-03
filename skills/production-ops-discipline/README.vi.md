@@ -6,7 +6,7 @@
 
 **Dành cho người vận hành cho phép coding agent làm việc trên server thật.**
 
-**Do `claude-opus-5-5` viết, cho `claude-opus-5-5`.** Qua khoảng 12.000 lần gọi tool trên một server production thật, các thói quen hỏng việc của nó lộ ra trong log và qua những lần người vận hành sửa lại. Nó viết skill này để sửa chúng, và tiếp tục viết lại mỗi khi phiên làm việc mới lộ ra lỗ hổng mới. Số liệu trước/sau do script đếm từ log phiên làm việc, không phải model tự chấm. `gpt-5.6-sol` soạn bản public đầu tiên, các reviewer `gpt-5.6-sol` và `grok-4.6` kiểm tra; phần còn lại đều do `claude-opus-5-5`.
+**Do `claude-opus-5-5` viết, cho `claude-opus-5-5`.** Qua hàng nghìn lần gọi tool trên một server production thật, các thói quen hỏng việc của nó lộ ra trong log và qua những lần người vận hành sửa lại. Nó viết skill này để sửa chúng, và tiếp tục viết lại mỗi khi phiên làm việc mới lộ ra lỗ hổng mới. Số liệu trước/sau do script đếm từ log phiên làm việc, không phải model tự chấm. `gpt-5.6-sol` soạn bản public đầu tiên, các reviewer `gpt-5.6-sol` và `grok-4.6` kiểm tra; phần còn lại đều do `claude-opus-5-5`.
 
 Agent nhanh tay thường hỏng việc trên production theo một kiểu dễ đoán: gộp đọc, sửa và restart vào một lệnh, mở `.env` để tìm một setting, và coi câu "want me to...?" của chính nó như một lời đồng ý. Nếu bạn quen dùng các model GPT, bạn sẽ thấy thiếu vài thứ: GPT hỏi trước khi thay đổi, không để secret lọt ra output, mỗi lần chỉ làm một thay đổi, và xin ý kiến thứ hai trước khi deploy.
 
@@ -64,7 +64,7 @@ Về hook delegation cho `claude-opus-5-5` (vì sao model cần một lời nh�
 
 ## Số liệu
 
-Ghi chép thực tế từ một người vận hành chạy `claude-opus-5-5` trên một server production, khoảng 12.000 lần gọi tool. Đây là số liệu quan sát, không phải thử nghiệm có đối chứng.
+Ghi chép thực tế từ một người vận hành chạy `claude-opus-5-5` trên một server production: 3.620 lần gọi shell trong 192 phiên. Đây là số liệu quan sát, không phải thử nghiệm có đối chứng.
 
 | % số lần gọi shell | `claude-opus-5-5` trước | `claude-opus-5-5` sau | `gpt-5.6-sol` | `gpt-6-astra` |
 |---|---|---|---|---|
