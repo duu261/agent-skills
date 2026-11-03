@@ -33,6 +33,13 @@
       "source": "./",
       "strict": false,
       "skills": ["./skills/repo-state-authority"]
+    },
+    {
+      "name": "nvim-plugin-maker",
+      "description": "Build, test, and release pure-Lua Neovim plugins: layout, headless plenary tests, never-crash rules for fast events, and an API reference tagged by Neovim version and checked by a script.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/nvim-plugin-maker"]
     }
   ]
 }

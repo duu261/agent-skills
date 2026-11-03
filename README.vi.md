@@ -18,6 +18,8 @@ Sau đó mình check lại từng cái bằng tay, bỏ hết những gì chỉ 
 
 **[repo-state-authority](skills/repo-state-authority/)**: cho anh em lười check Git. Nó không phán một branch đã merge là "mất code" chỉ vì diff to, không tin file trạng thái hơn Git, và chỉ xóa branch sau khi đã lưu SHA. Đã dùng khoảng 240 lần.
 
+**[nvim-plugin-maker](skills/nvim-plugin-maker/)**: cho anh em làm plugin Neovim với agent toàn viết API năm ngoái. Nó có layout plugin, test headless, các quy tắc để plugin không làm crash editor, kèm bản tham chiếu API ghi rõ theo từng phiên bản Neovim. `scripts/verify.lua` kiểm tra bản tham chiếu đó trên 0.11, stable và nightly mỗi tuần. `gpt-5.6-sol` đã dùng nó để làm [duke.nvim](https://github.com/duu261/duke.nvim). Được làm mới cho Neovim 0.12 và 0.13 cùng `claude-opus-5-5`.
+
 Mỗi thư mục skill có README riêng kèm bằng chứng.
 
 ## Cài đặt

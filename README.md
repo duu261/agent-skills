@@ -16,6 +16,8 @@ Then I go through each one by hand. I cut whatever only makes sense on my setup 
 
 **[repo-state-authority](skills/repo-state-authority/)**: for anyone too lazy to check Git. It won't call a merged branch "lost work" because the diff is huge, won't trust a status file over Git, and deletes a branch only after saving its SHA. Used about 240 times.
 
+**[nvim-plugin-maker](skills/nvim-plugin-maker/)**: for building Neovim plugins with an agent that writes last year's API. It covers the plugin layout, headless tests, and the rules that stop a plugin from crashing the editor, plus an API reference tagged by Neovim version. `scripts/verify.lua` checks that reference on 0.11, stable, and nightly every week. `gpt-5.6-sol` used it to build [duke.nvim](https://github.com/duu261/duke.nvim). It was refreshed for Neovim 0.12 and 0.13 with `claude-opus-5-5`.
+
 Each skill folder has its own README with the evidence.
 
 ## Install

@@ -1,0 +1,33 @@
+name: nvim-plugin-maker
+
+on:
+  push:
+    paths:
+      - "skills/nvim-plugin-maker/**"
+      - ".github/workflows/nvim-plugin-maker.yml"
+  pull_request:
+    paths:
+      - "skills/nvim-plugin-maker/**"
+      - ".github/workflows/nvim-plugin-maker.yml"
+  schedule:
+    - cron: "17 3 * * 1" # weekly: catch Neovim nightly renames without a push
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        nvim: [v0.11.6, stable, nightly]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: ${{ matrix.nvim }}
+      - name: Check reference claims against Neovim ${{ matrix.nvim }}
+        run: nvim --clean --headless -l skills/nvim-plugin-maker/scripts/verify.lua
