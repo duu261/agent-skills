@@ -11,10 +11,12 @@ Each pattern was replayed against one operator's real agent history: about 22,00
 - A first draft used filename patterns (`*.env`) and a broad `*printenv*`. Replayed, it would have broken about 650 legitimate jobs, mostly deploys that pass `--env-file`, backup copies of env files, and `printenv` of one named variable inside a container. It was replaced by patterns for the common ways a secret gets dumped.
 - The final 33-pattern list (secrets, force-push, lockout, and the first data-wipe rows) matched 209 of about 22,000 commands at the time. About 200 were real exposures, mostly `set -a` exports of an env file and `/proc/*/environ` reads. Only 1 was a legitimate job.
 - An outside review later found dumps that write to a file instead of a pipe (`env > f`, `compose config > out.yml`), `export $(cat .env | xargs)`, and short-flag force-pushes after the remote (`git push origin -f`, `-fu`). Fourteen patterns were added. A first draft, `*git push* -f*`, would have broken 51 normal pushes, because a later `cut -f1` or `gh api -f` in the same chain matched. The narrower final set matched 2 of about 34,500 past commands, both `compose config >/dev/null` validation runs that `--quiet` replaces.
+- A third round added 41 patterns for rarer spellings: `export -p`, `declare -x`/`-p`, `set >`/`set |`, NUL output (`env -0`), fd redirects (`env 2>`), `compose config --format`/`--environment`/`--output`, `source <(...)`, clustered `-fvu`, and every `git -C dir push` force form. Replayed, they caught 7 more real dumps, such as `config --format json > file` and full `docker exec ... env 2>/dev/null | grep` reads, and blocked 0 legitimate jobs. The reviewer's `*compose* config * -o *` was dropped: its `*` reached a later `-o` belonging to another tool in 30 normal chains (mostly `curl -o`, plus `rg -o` and `wget`).
+- The list then froze at 96. Most third-round patterns guard spellings that never appeared in history. New patterns now need a real incident or a real history hit.
 
 ## Sample list
 
-Hermes Agent `approvals.deny` glob syntax: `fnmatch`, case-insensitive, matched against the whole command text. Translate the intent, not the text, for other harnesses (see "Other harnesses").
+Hermes Agent `approvals.deny` glob syntax: `fnmatch`, case-insensitive, matched against the whole command text. Translate the intent, not the text, for other harnesses (see "Other harnesses"). The table is the core list. The third-round patterns are named above. They are cheap to add and mostly guard spellings you may never see.
 
 | Risk | Patterns |
 |---|---|
@@ -28,14 +30,13 @@ Hermes Agent `approvals.deny` glob syntax: `fnmatch`, case-insensitive, matched 
 
 ## Known gaps
 
-The list catches common dumps and force-pushes, not every spelling. These still pass. Only the compose `--format json` form appeared in the replayed history:
+The list catches common dumps and force-pushes, not every spelling. After all three rounds, these still pass:
 
-- **Force-push:** a non-`origin` remote with `-f` before the ref (`git push github -f main`), flags after `-f` (`origin main -f --thin`), clustered short flags (`-fvu`), and `git -C dir push origin -f`.
-- **Env dumps:** `export -p`, `declare -x`, `set > f`, NUL-separated output (`printenv -0`, `env -0 > f`), other redirect spellings (`env 2>&1 > f`, `env 1> f`), and `ssh host 'env > f'`, because the matcher does not unwrap an ssh payload.
-- **Compose:** flags between `config` and the redirect (`config --format json > f`, `config --services > f`) and `config --output f`. The replayed history has real `--format json >` dumps. A plain pattern for it also blocks `2>/dev/null` validation runs, so it needs careful wording before it ships.
-- **Env loads:** `source <(...)` and `xargs -a .env`.
+- **Force-push:** a non-`origin` remote with `-f` before the ref (`git push github -f main`) and flags after `-f` (`origin main -f --thin`).
+- **Env dumps:** `set |` in the middle of a chain (`cd x && set | grep`) and `ssh host 'env > f'`, because the matcher does not unwrap an ssh payload.
+- **Compose:** a flag between `config` and `-o` (`config --profile x -o f`), and `config --format json` with more after it, such as `2>/dev/null`. A plain `*compose* config --format json*` matched 8 more past commands, so it was left out.
 
-`*git push * -f` has no trailing `*`, so it also blocks any chain that contains `git push` and ends in ` -f`, such as `git push origin main && rm -f`. History had 0 of these.
+Accepted false blocks: `*git push * -f` has no trailing `*`, so a chain that contains `git push` and ends in ` -f` is blocked (`git push origin main && rm -f`). `env 2>/dev/null FOO=1 cmd` and `xargs -a .envrc` are blocked too. History had 0 of each.
 
 ## The incident behind the Docker rows
 
@@ -68,6 +69,7 @@ Replayed against history, the three prune patterns matched 3 commands: this inci
 - **Check suffix variants.** `*.env` is end-anchored and misses `.env.local`.
 - **Not a security boundary.** Depending on the harness, `/bin/rm`, `bash -c '...'`, or a different flag order can slip past a text rule. The threat model is an honest agent's slip. For hard isolation, use the harness sandbox or withhold the credential.
 - **Replay before you ship.** Run every new pattern against your own command history through the harness's real matcher. A list that blocks a weekly job gets switched off.
+- **Know when to stop.** Each review round finds more spellings, and a glob list can never cover them all. Once new patterns only guard spellings your history never used, freeze the list. Add to it after a real incident, and lift a pattern when its block message shows it stopping real work.
 
 ## Other harnesses
 
