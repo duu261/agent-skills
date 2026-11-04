@@ -22,7 +22,7 @@ The skill is named `production-ops-discipline`. It was first published as `duu26
 - **A block is an answer:** stop and report, never route around a guardrail.
 - **Do not over-correct:** no permission questions for reads, no asking twice, no SLA prose in a small README.
 
-Built and tuned on `claude-opus-5-5`. The mechanical defaults (backups, one change per call, secret hygiene, fixed review triggers) are simple patterns that should carry over to other models, but that is untested. The judgment sections assume a strong model; pair weaker models with harness deny rules or hooks.
+Built and tuned on `claude-opus-5-5`. The mechanical defaults (backups, one change per call, secret hygiene, fixed review triggers) are simple patterns that should carry over to other models, but that is untested. The judgment sections assume a strong model; pair weaker models with harness deny rules or hooks ([sample deny list](references/deny-patterns.md)).
 
 ## Install
 
