@@ -28,7 +28,7 @@ Hermes Agent `approvals.deny` glob syntax: `fnmatch`, case-insensitive, matched 
 
 A smoke test started a throwaway container and cleaned up with `docker volume prune -f` in its exit trap. Prune is host-wide. It deleted every unused anonymous volume on the host, not just the test's own. Docker keeps no record of what a pruned volume held. Command history points to leftovers from earlier test database containers, which had been started without `--rm` and removed with `docker rm -f`. That removes the container but keeps its anonymous volume. Production data sat on bind mounts and named volumes, so it survived.
 
-Replayed against history, the three prune patterns matched 3 commands: this incident, plus two deliberate wipes of a retired host that the operator now runs by hand. The five `down -v` patterns matched 4 of 1,145 commands containing "down": two one-off teardowns and two commands that only quoted the patterns.
+Replayed against history, the three prune patterns matched 3 commands: this incident, plus two commands from one deliberate wipe of a retired host, which the operator now runs by hand. The five `down -v` patterns matched 4 of 1,145 commands containing "down": two one-off teardowns and two commands that only quoted the patterns.
 
 ## Deliberately not blocked
 
@@ -42,7 +42,7 @@ Replayed against history, the three prune patterns matched 3 commands: this inci
 | `git push --force-with-lease` | The lease refuses to overwrite commits you have not seen. |
 | `dropdb`, `TRUNCATE`, `git reset --hard`, `iptables -F` | History showed legitimate uses, such as resetting a test database. Leave these to approval prompts and the skill's rules. |
 | Secret filenames (`*.env`) | Deploys legitimately name env files. Block how a secret gets exposed (`set -a`, `printenv`, `/proc/*/environ`), not where it is stored. |
-| `docker inspect` | Most uses are safe `--format` reads. The skill's rule (always pass `--format`, never dump the env block) covers it better than a pattern. |
+| `docker inspect` | Most uses are safe reads with an explicit `--format`. The skill's rule (format only non-secret fields) covers it better than a pattern. `--format '{{.Config.Env}}'` is still a secret dump. |
 
 ## Pitfalls
 
