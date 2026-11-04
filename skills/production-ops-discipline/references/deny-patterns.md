@@ -8,8 +8,9 @@ The skill's rules tell an agent not to run these commands. A deny rule makes the
 
 Each pattern was replayed against one operator's real agent history: about 22,000 shell commands for the first list, about 34,000 by the time the later Docker rows were added. Every new match was then sorted as harmful, legitimate, or mention-only. A pattern stayed only when it caught real harm and broke almost no legitimate work.
 
-- A first draft used filename patterns (`*.env`) and a broad `*printenv*`. Replayed, it would have broken about 650 legitimate jobs, mostly deploys that pass `--env-file`, backup copies of env files, and `printenv` of one named variable inside a container. It was replaced by patterns for the ways a secret actually gets dumped.
+- A first draft used filename patterns (`*.env`) and a broad `*printenv*`. Replayed, it would have broken about 650 legitimate jobs, mostly deploys that pass `--env-file`, backup copies of env files, and `printenv` of one named variable inside a container. It was replaced by patterns for the common ways a secret gets dumped.
 - The final 33-pattern list (secrets, force-push, lockout, and the first data-wipe rows) matched 209 of about 22,000 commands at the time. About 200 were real exposures, mostly `set -a` exports of an env file and `/proc/*/environ` reads. Only 1 was a legitimate job.
+- An outside review later found dumps that write to a file instead of a pipe (`env > f`, `compose config > out.yml`), `export $(cat .env | xargs)`, and short-flag force-pushes after the remote (`git push origin -f`, `-fu`). Fourteen patterns were added. A first draft, `*git push* -f*`, would have broken 51 normal pushes, because a later `cut -f1` or `gh api -f` in the same chain matched. The narrower final set matched 2 of about 34,500 past commands, both `compose config >/dev/null` validation runs that `--quiet` replaces.
 
 ## Sample list
 
@@ -18,11 +19,23 @@ Hermes Agent `approvals.deny` glob syntax: `fnmatch`, case-insensitive, matched 
 | Risk | Patterns |
 |---|---|
 | Secret exposure | `*set -a*`, `*set -o allexport*`, `printenv`, `* printenv`, `*printenv \|*`, `env`, `env \|*`, `* env \|*`, `*docker* exec * env`, `*/proc/*/environ*`, `*compose* config`, `*compose* config \|*`, `*dotenv_values*`, `*load_dotenv(*` |
-| Force-push | `git push --force`, `git push --force *`, `* git push --force`, `* git push --force *`, the same four for `-f`, `*git push * --force`, `*git push +*`, `*git push * +*` |
+| Secret to a file | `*printenv >*`, `*printenv>*`, `env >*`, `env>*`, `* env >*`, `* env>*`, `*compose* config >*`, `*compose* config>*`, `*export $(*`, `*export "$(*` |
+| Force-push | `git push --force`, `git push --force *`, `* git push --force`, `* git push --force *`, the same four for `-f`, `*git push * --force`, `*git push +*`, `*git push * +*`, `*git push -fu*`, `*git push -uf*`, `*git push origin -f*`, `*git push * -f` |
 | Lockout | `*ufw disable*`, `*ufw reset*`, `*tailscale down*`, `*tailscale logout*` |
 | Data wipe | `*redis-cli*flushall*`, `*redis-cli*flushdb*`, `*drop database*`, `*prune*--volumes*`, `*docker volume prune*`, `*docker system prune*`, `*docker container prune*`, `*docker compose* down -v*`, `*docker compose* down * -v*`, `*docker-compose* down -v*`, `*docker-compose* down * -v*`, `*docker*down*--volumes*` |
 
-`*compose* config` blocks only the bare and piped forms, which print every interpolated secret. `docker compose config --quiet` still runs.
+`*compose* config` blocks only the bare, piped, and redirected forms, which print every interpolated secret. `docker compose config --quiet` still runs. `printenv ONE_VAR > f` and `export PATH=$(pwd)/bin:$PATH` also still run: one named variable and a computed path are not dumps.
+
+## Known gaps
+
+The list catches common dumps and force-pushes, not every spelling. These still pass. Only the compose `--format json` form appeared in the replayed history:
+
+- **Force-push:** a non-`origin` remote with `-f` before the ref (`git push github -f main`), flags after `-f` (`origin main -f --thin`), clustered short flags (`-fvu`), and `git -C dir push origin -f`.
+- **Env dumps:** `export -p`, `declare -x`, `set > f`, NUL-separated output (`printenv -0`, `env -0 > f`), other redirect spellings (`env 2>&1 > f`, `env 1> f`), and `ssh host 'env > f'`, because the matcher does not unwrap an ssh payload.
+- **Compose:** flags between `config` and the redirect (`config --format json > f`, `config --services > f`) and `config --output f`. The replayed history has real `--format json >` dumps. A plain pattern for it also blocks `2>/dev/null` validation runs, so it needs careful wording before it ships.
+- **Env loads:** `source <(...)` and `xargs -a .env`.
+
+`*git push * -f` has no trailing `*`, so it also blocks any chain that contains `git push` and ends in ` -f`, such as `git push origin main && rm -f`. History had 0 of these.
 
 ## The incident behind the Docker rows
 
@@ -51,6 +64,7 @@ Replayed against history, the three prune patterns matched 3 commands: this inci
 - **A `*` spans chained commands.** `*docker compose* down * -v*` also matches `docker compose down && docker run -v ...`. Run the two commands as separate calls.
 - **The list blocks its own edit.** An agent applying a new list puts every existing pattern into the command text, so `*set -a*` blocks the apply. That is the intended behavior: the owner applies deny-list changes. The agent hands over a script that sets the full list and then reads it back.
 - **Anchor on spaces, not letters.** `*docker*down*-v*` also caught `--verbose`, `--version`, and `docker run --name down -v`. `*git push*+*` caught `g++` and `feat+login`. Write `* down -v*` and `*git push +*`.
+- **A short flag is the worst case.** `-f` appears in `cut -f1`, `rm -f`, `compose -f`, and `gh api -f`. Pin it to a neighbor (`git push origin -f`, `-fu`) or to the end of the command (`* -f`), never `*git push* -f*`.
 - **Check suffix variants.** `*.env` is end-anchored and misses `.env.local`.
 - **Not a security boundary.** Depending on the harness, `/bin/rm`, `bash -c '...'`, or a different flag order can slip past a text rule. The threat model is an honest agent's slip. For hard isolation, use the harness sandbox or withhold the credential.
 - **Replay before you ship.** Run every new pattern against your own command history through the harness's real matcher. A list that blocks a weekly job gets switched off.
