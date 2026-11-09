@@ -26,7 +26,7 @@ Hermes Agent `approvals.deny` glob syntax: `fnmatch`, case-insensitive, matched 
 | Lockout | `*ufw disable*`, `*ufw reset*`, `*tailscale down*`, `*tailscale logout*` |
 | Data wipe | `*redis-cli*flushall*`, `*redis-cli*flushdb*`, `*drop database*`, `*prune*--volumes*`, `*docker volume prune*`, `*docker system prune*`, `*docker container prune*`, `*docker compose* down -v*`, `*docker compose* down * -v*`, `*docker-compose* down -v*`, `*docker-compose* down * -v*`, `*docker*down*--volumes*` |
 
-`*compose* config` blocks only the bare, piped, and redirected forms, which print every interpolated secret. `docker compose config --quiet` still runs. `printenv ONE_VAR > f` and `export PATH=$(pwd)/bin:$PATH` also still run: one named variable and a computed path are not dumps.
+`*compose* config` blocks only the bare, piped, and redirected forms, which print every interpolated secret. `docker compose config --quiet` still runs, but it is not secret-free: like every compose subcommand it loads the project's `.env`, and a malformed one can print a value in its error. `printenv ONE_VAR > f` and `export PATH=$(pwd)/bin:$PATH` also still run: one named variable and a computed path are not dumps.
 
 ## Known gaps
 

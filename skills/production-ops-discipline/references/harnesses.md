@@ -77,7 +77,8 @@ The core skill is harness-neutral. This file maps it to specific harnesses. Chec
 | Reviewer subagent | `delegate_task` |
 
 - `patch` and `write_file` write a temp file and rename it, which replaces the inode. Use the staged-copy and `cp` pattern for bind-mounted files.
-- `write_file` refuses a file that changed since it was read. Re-read, then write.
+- `write_file` refuses a file that changed since it was read, or that was last read with offset/limit. Re-read it whole or use `patch`; never fall back to a shell redirect or a Python `open()` write.
+- Read every `patch` result. A `success` with no `diff`, or `no_change: true` on an insert, wrote nothing; the strings are likely swapped.
 - `delegate_task` children inherit the parent's toolsets minus a blocked list, so "read-only" is prompt-only.
 - Hermes adds extra execution guidance for GPT-like model names by default, and none for Claude. Claude models start with less rule pressure there, so this skill fills more of the gap.
 - Delegation hook equivalent: a plugin on the `pre_llm_call` hook that returns `{"context": "<reminder>"}` when the model name matches `opus-5-5` or `opus-5.5`, and returns nothing for subagent sessions (`parent_session_id` set), since those cannot delegate. The context rides the user turn, unlabeled.
