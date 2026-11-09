@@ -9,6 +9,7 @@ This repo publishes Agent Skills, one per folder: `skills/<name>/SKILL.md`. The 
 - `description` says what the skill does and when to use it, 1,024 characters or fewer. It is what an agent reads to decide whether to load the skill.
 - Frontmatter: `name`, `description`, `license: MIT`. Nothing harness-specific.
 - `SKILL.md` stays under 500 lines. Put long detail in `references/`, helpers in `scripts/`.
+- A page that quotes commands a skill installer's security scan flags (the sample deny list quotes secret-dump commands) goes in repo-level `docs/`, linked by absolute GitHub URL, never in a skill folder: Hermes Agent refuses to install a skill folder that contains them.
 - Each skill folder has `README.md` and `README.vi.md`: what failure it fixes, where it came from, install.
 
 ## Adding a skill
