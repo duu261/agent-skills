@@ -24,7 +24,7 @@ Skill tên là `production-ops-discipline`. Skill này ra mắt lần đầu ở
 - **Bị chặn tức là đã có câu trả lời:** dừng lại và báo cáo, không bao giờ đi đường vòng qua guardrail.
 - **Đừng sửa quá tay:** không xin phép để đọc, không hỏi lại lần hai, không viết README nhỏ bằng giọng văn SLA.
 
-Được xây dựng và tinh chỉnh trên `claude-opus-5-5`. Các mặc định cơ học (backup, mỗi lần gọi một thay đổi, vệ sinh secret, trigger review cố định) là những pattern đơn giản, có lẽ dùng được với model khác, nhưng chưa được kiểm chứng. Các phần cần phán đoán giả định một model mạnh; với model yếu hơn, hãy dùng thêm deny rule hoặc hook của harness ([danh sách deny mẫu](references/deny-patterns.md), tiếng Anh).
+Được xây dựng và tinh chỉnh trên `claude-opus-5-5`. Các mặc định cơ học (backup, mỗi lần gọi một thay đổi, vệ sinh secret, trigger review cố định) là những pattern đơn giản, có lẽ dùng được với model khác, nhưng chưa được kiểm chứng. Các phần cần phán đoán giả định một model mạnh; với model yếu hơn, hãy dùng thêm deny rule hoặc hook của harness ([danh sách deny mẫu](https://github.com/duu261/agent-skills/blob/main/docs/deny-patterns.md), tiếng Anh).
 
 ## Cài đặt
 

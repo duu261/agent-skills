@@ -2,6 +2,8 @@
 
 A sample hard-deny list for agent shell commands, with what it deliberately leaves alone and why. Use it as a seatbelt for honest mistakes, not as a sandbox.
 
+It is a companion page to the [production-ops-discipline](../skills/production-ops-discipline/SKILL.md) skill and lives outside the skill folder on purpose: it quotes the exact secret-dump commands it blocks, and skill installers that scan for those commands refuse a skill folder that contains them. Agents do not need this page loaded; the human who configures the harness does.
+
 The skill's rules tell an agent not to run these commands. A deny rule makes the harness refuse them even when the agent forgets. In the field notes behind this file, standing rules already required approval for any deletion, and an agent still ran a host-wide prune inside a test cleanup. A deny rule would have stopped it.
 
 ## How the list was built

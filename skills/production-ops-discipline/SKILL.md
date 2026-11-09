@@ -183,4 +183,4 @@ Avoiding ceremony never lifts the secrets rules, one-way production actions, or 
 
 - [references/harnesses.md](references/harnesses.md): how these defaults map to Claude Code, Codex, Hermes Agent, and other harnesses, plus an optional Opus 5.5 delegation hook.
 - [references/evidence.md](references/evidence.md): where the rules came from and what the data does and does not show.
-- [references/deny-patterns.md](references/deny-patterns.md): a sample hard-deny list for shell commands, replayed against real agent history, with what it leaves allowed and why.
+- [Deny patterns](https://github.com/duu261/agent-skills/blob/main/docs/deny-patterns.md) (repo `docs/`, not installed with the skill): a sample hard-deny list for shell commands, replayed against real agent history, with what it leaves allowed and why.
